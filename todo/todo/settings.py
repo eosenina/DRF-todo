@@ -12,9 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-import users
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'users',
+    'todo_users',
 ]
 
 MIDDLEWARE = [
@@ -103,6 +101,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
+AUTH_USER_MODEL = 'todo_users.User'
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -112,9 +112,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-AUTH_USER_MODEL = users.models.AppUser
 
 
 # Static files (CSS, JavaScript, Images)
