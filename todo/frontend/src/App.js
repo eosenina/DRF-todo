@@ -3,6 +3,8 @@ import './App.css';
 import React from "react";
 import axios from "axios";
 import UserList from "./components/User";
+import Menu from "./components/Menu";
+import Footer from "./components/Footer";
 
 class App extends React.Component {
     constructor(props) {
@@ -23,22 +25,14 @@ class App extends React.Component {
                 )
             }
         ).catch(error => console.log(error))
-
-        // const user = [
-        //   {
-        //     'username': 'user1',
-        //     'email': 'aaa@fggh.qw',
-        //     'first_name': 'Rere',
-        //     'last_name': 'tyty',
-        //   }
-        // ]
-
     }
 
     render() {
         return (
             <div>
+                <Menu/>
                 <UserList users={this.state.users}/>
+                <Footer/>
             </div>
         );
     }
@@ -46,26 +40,4 @@ class App extends React.Component {
 
 export default App;
 
-
-// function App() {
-//   render ()
-//   return (
-//     // <div className="App">
-//     //   <header className="App-header">
-//     //     <img src={logo} className="App-logo" alt="logo" />
-//     //     <p>
-//     //       Edit <code>src/App.js</code> and save to reload.
-//     //     </p>
-//     //     <a
-//     //       className="App-link"
-//     //       href="https://reactjs.org"
-//     //       target="_blank"
-//     //       rel="noopener noreferrer"
-//     //     >
-//     //       Learn React
-//     //     </a>
-//     //   </header>
-//     // </div>
-//   );
-// }
 
