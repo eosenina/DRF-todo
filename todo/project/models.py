@@ -8,6 +8,9 @@ class Project(models.Model):
     user = models.ManyToManyField(User)
     repo_link = models.URLField(max_length=300)
 
+    def __str__(self):
+        return self.name
+
 
 class ToDo(models.Model):
     ACTIVE = 'ACT'
@@ -20,7 +23,11 @@ class ToDo(models.Model):
     caption = models.CharField(max_length=128)
     text = models.TextField()
     state = models.CharField(max_length=3, choices=TODO_STATES, default=ACTIVE)
-    project = models.OneToOneField(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    author = models.OneToOneField(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def delete(self, using=None, keep_parents=False):
+        self.state = self.CLOSED
+        self.save()

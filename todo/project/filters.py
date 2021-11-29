@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from .models import Project
+from .models import Project, ToDo
 
 
 class ProjectFilter(filters.FilterSet):
@@ -8,3 +8,11 @@ class ProjectFilter(filters.FilterSet):
     class Meta:
         model = Project
         fields = ['name']
+
+
+class ToDoFilter(filters.FilterSet):
+    project__name = filters.CharFilter(lookup_expr='contains')
+
+    class Meta:
+        model = ToDo
+        fields = ['id', 'project__name']
