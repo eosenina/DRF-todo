@@ -12,7 +12,8 @@ class ProjectFilter(filters.FilterSet):
 
 class ToDoFilter(filters.FilterSet):
     project__name = filters.CharFilter(lookup_expr='contains')
+    created = filters.DateFromToRangeFilter(field_name='created')
 
     class Meta:
         model = ToDo
-        fields = ['id', 'project__name']
+        fields = ['id', 'project__name', 'created']
