@@ -4,7 +4,7 @@ from project.models import Project, ToDo
 from todo_users.serializers import UserModelSerializer
 
 
-class ProjectModelSerializer(HyperlinkedModelSerializer):
+class ProjectModelSerializer(ModelSerializer):
 
     # user = UserModelSerializer(many=True)
     class Meta:

@@ -1,14 +1,14 @@
 import React from "react";
 // import {Nav} from "react-bootstrap";
+import {HashRouter, Link, Route} from "react-router-dom";
+import UserList from "./User";
+import ProjectList from "./Project";
+import TodoList from "./TodoList";
 
 
 const Menu = ({}) => {
     return (
-        <ul>
-            <li>Главная</li>
-            <li>Пользователи</li>
-            <li>Проекты</li>
-        </ul>
+        <ul></ul>
         // <Nav variant="tabs" defaultActiveKey="/home">
         //     <Nav.Item>
         //         <Nav.Link href="#">Пользователи</Nav.Link>
