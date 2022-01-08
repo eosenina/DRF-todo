@@ -123,4 +123,3 @@ class TestToDoViewSet(APITestCase):
         self.assertEqual(todo_updated.caption, self.data2['caption'])
         self.assertEqual(todo_updated.text, self.data2['text'])
         self.client.logout()
-
