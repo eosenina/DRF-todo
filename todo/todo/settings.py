@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'project',
     'django_filters',
     'rest_framework.authtoken',
-    'drf_yasg'
+    'drf_yasg',
+    'graphene_django'
 ]
 
 MIDDLEWARE = [
@@ -152,3 +153,8 @@ REST_FRAMEWORK = {
 
 if DEBUG:
     REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'].append('rest_framework.renderers.BrowsableAPIRenderer')
+
+
+GRAPHENE = {
+    "SCHEMA": "todo.schema.schema"
+}
