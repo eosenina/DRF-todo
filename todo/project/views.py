@@ -21,6 +21,13 @@ class ProjectModelViewSet(ModelViewSet):
     # pagination_class = ProjectLimitOffsetPagination
     filterset_class = ProjectFilter
 
+    def get_queryset(self):
+        queryset = Project.objects.all()
+        project_name = self.request.query_params.get('name', None)
+        if project_name is not None:
+            queryset = queryset.filter(name__contains=project_name)
+        return queryset
+
 
 class ToDoModelViewSet(ModelViewSet):
     queryset = ToDo.objects.all()

@@ -12,6 +12,12 @@ import TodoList from "./components/TodoList";
 import NotFound from "./components/NotFound";
 import ProjectTodosList from "./components/ProjectTodos";
 import LoginForm from "./components/LoginForm";
+import ProjectForm from "./components/ProjectForm";
+import TodoForm from "./components/TodoForm";
+import FilterProjectForm from "./components/FilterProjectForm";
+import FilteredProjectList from "./components/Project";
+import ProjectUpdateForm from "./components/ProjectUpdateForm";
+
 
 class App extends React.Component {
     constructor(props) {
@@ -71,11 +77,73 @@ class App extends React.Component {
         // this.load_data()
     }
 
+    createProject(name, user, repo_link) {
+        const headers = this.get_headers()
+        const data = {name: name, user: user, repo_link: repo_link}
+        axios.post(`http://127.0.0.1:8000/api/projects/`, data, {headers})
+            .then(response => {
+                this.load_data()
+            }).catch(error => console.log(error))
+    }
+
+    filterProject(name) {
+        // let result=[];
+        // this.state.projects.forEach( i => {
+        //     if (i.name.indexOf(name) !== -1)
+        //         result.push(i)
+        // })
+        // this.setState({'projects': result})
+
+        const headers = this.get_headers()
+        axios.get(`http://127.0.0.1:8000/api/projects/?name=${name}`, {headers})
+            .then(response => {
+                this.setState({'projects': response.data})
+            }).catch(error => console.log(error))
+    }
+
+    updateProject(name, user, repo_link, id) {
+        const headers = this.get_headers()
+        const data = {name: name, user: user, repo_link: repo_link}
+        axios.put(`http://127.0.0.1:8000/api/projects/${id}/`, data,{headers})
+            .then(response => {
+                console.log(response.data)
+                this.load_data()
+            }).catch(error => console.log(error))
+    }
+
+    createTodo(caption, text, author, project) {
+        const headers = this.get_headers()
+        const data = {caption: caption, text: text, author: author, project: project}
+        console.log(data)
+        axios.post(`http://127.0.0.1:8000/api/todos/`, data, {headers})
+            .then(response => {
+                console.log(response.data)
+                this.load_data()
+            }).catch(error => console.log(error))
+    }
+
+    deleteProject(id) {
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:8000/api/projects/${id}/`, {headers}).then(response => {
+            this.load_data()
+        }).catch(error => console.log(error))
+    }
+
+    deleteTodo(id) {
+        const headers = this.get_headers()
+        console.log(headers)
+        console.log(id)
+        axios.delete(`http://127.0.0.1:8000/api/todos/${id}/`, {headers}).then(response => {
+            this.load_data()
+        }).catch(error => console.log(error))
+    }
+
     load_data() {
         const headers = this.get_headers()
         axios.get('http://127.0.0.1:8000/api/users/', {headers}).then(
             response => {
                 const users = response.data
+                console.log(users)
                 this.setState(
                     {
                         'users': users
@@ -140,8 +208,24 @@ class App extends React.Component {
 
                     <Switch>
                         <Route exact path='/' component={() => <UserList users={this.state.users}/>}/>
-                        <Route exact path='/projects' component={() => <ProjectList projects={this.state.projects}/>}/>
-                        <Route exact path='/todos' component={() => <TodoList todos={this.state.todos}/>}/>
+                        <Route exact path='/projects/create' component={() =>
+                            <ProjectForm users={this.state.users}
+                                         createProject={(name, user, repo_link) => this.createProject(name, user, repo_link)}/>}/>
+                        <Route exact path='/projects/update/:id'
+
+                               component={(id) =>
+                            <ProjectUpdateForm users={this.state.users} projects={this.state.projects} id={id}
+                                         updateProject={(name, user, repo_link, id) => this.updateProject(name, user, repo_link, id)}/>}/>
+                        <Route exact path='/projects' component={() =>
+                            <FilteredProjectList projects={this.state.projects}
+                                                 deleteProject={(id) => this.deleteProject(id)}
+                                                 filterProject={(name) => this.filterProject(name)}/>
+                        }/>
+                        <Route exact path='/todos/create' component={() =>
+                            <TodoForm users={this.state.users} projects={this.state.projects}
+                                      createTodo={(caption, text, author, project) => this.createTodo(caption, text, author, project)}/>}/>
+                        <Route exact path='/todos' component={() => <TodoList todos={this.state.todos}
+                                                                              deleteTodo={(id) => this.deleteTodo(id)}/>}/>
                         <Route exact path='/login' component={() => <LoginForm get_auth_data={(username, password) =>
                             this.get_auth_data(username, password)}/>}/>
                         <Route path='/project/:id'>

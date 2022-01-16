@@ -1,21 +1,26 @@
 import React from "react";
 import App from "../App";
 import TodoItem from "./TodoItem";
+import {Link} from "react-router-dom";
 
 
-const TodoList = ({todos}) => {
+const TodoList = ({todos, deleteTodo}) => {
 
     return (
-        <table>
-            <th> Caption </th>
-            <th> Text </th>
-            <th> Project </th>
-            <th> State </th>
-            <th> Creation date </th>
-            <th> Last update </th>
-            <th> Author </th>
-            {todos.map((todo) => <TodoItem todo = {todo} />)}
-        </table>
+        <div>
+            <table>
+                <th> Caption</th>
+                <th> Text</th>
+                <th> Project</th>
+                <th> Creation date</th>
+                <th> Last update</th>
+                <th> Author</th>
+                <th> State</th>
+                <th></th>
+                {todos.map((todo) => <TodoItem todo={todo} deleteTodo={deleteTodo}/>)}
+            </table>
+            <Link to='/todos/create'>Create</Link>
+        </div>
     )
 }
 
