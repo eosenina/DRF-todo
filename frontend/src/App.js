@@ -104,7 +104,7 @@ class App extends React.Component {
     updateProject(name, user, repo_link, id) {
         const headers = this.get_headers()
         const data = {name: name, user: user, repo_link: repo_link}
-        axios.put(`http://127.0.0.1:8000/api/projects/${id}/`, data,{headers})
+        axios.put(`http://127.0.0.1:8000/api/projects/${id}/`, data, {headers})
             .then(response => {
                 console.log(response.data)
                 this.load_data()
@@ -212,24 +212,30 @@ class App extends React.Component {
                             <ProjectForm users={this.state.users}
                                          createProject={(name, user, repo_link) => this.createProject(name, user, repo_link)}/>}/>
                         <Route exact path='/projects/update/:id'
-
                                component={(id) =>
-                            <ProjectUpdateForm users={this.state.users} projects={this.state.projects} id={id}
-                                         updateProject={(name, user, repo_link, id) => this.updateProject(name, user, repo_link, id)}/>}/>
+                                   <ProjectUpdateForm users={this.state.users} projects={this.state.projects} id={id}
+                                                      updateProject={(name, user, repo_link, id) => this.updateProject(name, user, repo_link, id)}/>}/>
                         <Route exact path='/projects' component={() =>
-                            <FilteredProjectList projects={this.state.projects}
+                            <FilteredProjectList users={this.state.users}
+                                                 projects={this.state.projects}
                                                  deleteProject={(id) => this.deleteProject(id)}
                                                  filterProject={(name) => this.filterProject(name)}/>
                         }/>
                         <Route exact path='/todos/create' component={() =>
                             <TodoForm users={this.state.users} projects={this.state.projects}
                                       createTodo={(caption, text, author, project) => this.createTodo(caption, text, author, project)}/>}/>
-                        <Route exact path='/todos' component={() => <TodoList todos={this.state.todos}
-                                                                              deleteTodo={(id) => this.deleteTodo(id)}/>}/>
+                        <Route exact path='/todos' component={() => <TodoList
+                            users={this.state.users}
+                            projects={this.state.projects}
+                            todos={this.state.todos}
+                            deleteTodo={(id) => this.deleteTodo(id)}/>}/>
                         <Route exact path='/login' component={() => <LoginForm get_auth_data={(username, password) =>
                             this.get_auth_data(username, password)}/>}/>
                         <Route path='/project/:id'>
-                            <ProjectTodosList todos={this.state.todos}/>
+                            <ProjectTodosList users={this.state.users}
+                                              projects={this.state.projects}
+                                              todos={this.state.todos}
+                                              deleteTodo={(id) => this.deleteTodo(id)}/>
                         </Route>
                         <Redirect to='/' from='/users'/>
 
