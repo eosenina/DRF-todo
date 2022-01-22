@@ -11,7 +11,6 @@ class FilterProjectForm extends React.Component {
     }
 
     handleChange(event) {
-        console.log('change')
         this.setState(
             {
                 [event.target.name]: event.target.value

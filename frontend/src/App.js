@@ -83,7 +83,10 @@ class App extends React.Component {
         axios.post(`http://127.0.0.1:8000/api/projects/`, data, {headers})
             .then(response => {
                 this.load_data()
-            }).catch(error => console.log(error))
+            }).catch(error => {
+                alert('Ошибка! Не удалось создать проект.')
+                console.log(error)
+        })
     }
 
     filterProject(name) {
@@ -106,36 +109,44 @@ class App extends React.Component {
         const data = {name: name, user: user, repo_link: repo_link}
         axios.put(`http://127.0.0.1:8000/api/projects/${id}/`, data, {headers})
             .then(response => {
-                console.log(response.data)
                 this.load_data()
-            }).catch(error => console.log(error))
+            }).catch(error => {
+                alert('Ошибка! Не удалось обновить проект.')
+                console.log(error)
+        })
     }
 
     createTodo(caption, text, author, project) {
         const headers = this.get_headers()
         const data = {caption: caption, text: text, author: author, project: project}
-        console.log(data)
         axios.post(`http://127.0.0.1:8000/api/todos/`, data, {headers})
             .then(response => {
-                console.log(response.data)
                 this.load_data()
-            }).catch(error => console.log(error))
+            }).catch(error => {
+                alert('Ошибка! Не удалось создать задачу.')
+                console.log(error)
+        })
     }
 
     deleteProject(id) {
         const headers = this.get_headers()
         axios.delete(`http://127.0.0.1:8000/api/projects/${id}/`, {headers}).then(response => {
             this.load_data()
-        }).catch(error => console.log(error))
+        }).catch(error => {
+                alert('Ошибка! Не удалось удалить проект.')
+                console.log(error)
+            }
+        )
     }
 
     deleteTodo(id) {
         const headers = this.get_headers()
-        console.log(headers)
-        console.log(id)
         axios.delete(`http://127.0.0.1:8000/api/todos/${id}/`, {headers}).then(response => {
             this.load_data()
-        }).catch(error => console.log(error))
+        }).catch(error => {
+            alert('Ошибка! Не удалось удалить задачу.')
+            console.log(error)
+        })
     }
 
     load_data() {
@@ -143,7 +154,6 @@ class App extends React.Component {
         axios.get('http://127.0.0.1:8000/api/users/', {headers}).then(
             response => {
                 const users = response.data
-                console.log(users)
                 this.setState(
                     {
                         'users': users
