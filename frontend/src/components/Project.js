@@ -5,13 +5,13 @@ import FilterProjectForm from "./FilterProjectForm";
 import ProjectForm from "./ProjectForm";
 
 
-const ProjectItem = ({project, deleteProject}) => {
+const ProjectItem = ({users, project, deleteProject}) => {
     return (
         <tr>
             <td>
-                <Link to={`/project/${project.id}`}> {project.name} </Link>
+                <Link to={{pathname:`/project/${project.id}`}}> {project.name} </Link>
             </td>
-            <td>{project.user}</td>
+            <td>{project.user.map((user_id) =>{ return users.find((user) => user.id == user_id).username })}</td>
             <td>{project.repo_link}</td>
             <td>
                 <button onClick={() => deleteProject(project.id)} type='button'>Delete</button>
@@ -19,11 +19,10 @@ const ProjectItem = ({project, deleteProject}) => {
             <td>
                 <Link to={{pathname:`/projects/update/${project.id}`}}>Update</Link>
             </td>
-{/*id: project.id*/}
         </tr>
     )
 }
-const ProjectList = ({projects, deleteProject}) => {
+const ProjectList = ({users, projects, deleteProject}) => {
 
     return (
         <div>
@@ -32,7 +31,7 @@ const ProjectList = ({projects, deleteProject}) => {
                 <th> User</th>
                 <th> Link</th>
                 <th></th>
-                {projects.map((project) => <ProjectItem project={project}
+                {projects.map((project) => <ProjectItem  users={users} project={project}
                                                         deleteProject={deleteProject}/>)}
             </table>
             <Link to='/projects/create'>Create</Link>
@@ -41,12 +40,12 @@ const ProjectList = ({projects, deleteProject}) => {
     )
 }
 
-const FilteredProjectList = ({projects, deleteProject, filterProject}) => {
+const FilteredProjectList = ({users, projects, deleteProject, filterProject}) => {
 
     return (
         <div>
             <FilterProjectForm filterProject={(name) => filterProject(name)}/>
-            <ProjectList projects={projects} deleteProject={deleteProject}/>
+            <ProjectList users={users} projects={projects} deleteProject={deleteProject}/>
         </div>
     )
 }

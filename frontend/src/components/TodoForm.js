@@ -6,14 +6,14 @@ class TodoForm extends React.Component {
         super(props)
         this.state = {
             caption: '',
-             author: props.users[0].id,
+            author: props.users[0].id,
             text: '',
             project: props.projects[0].id,
         }
     }
 
     handleChange(event) {
-        console.log('change', event.target.name, event.target.value)
+        // console.log('change', event.target.name, event.target.value)
         this.setState(
             {
                 [event.target.name]: event.target.value

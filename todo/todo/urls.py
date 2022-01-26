@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import TemplateView
 from graphene_django.views import GraphQLView
 from rest_framework import permissions
 from rest_framework.authtoken import views
@@ -46,6 +47,7 @@ router.register('todos', ToDoModelViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', TemplateView.as_view(template_name='index.html')),
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include(router.urls)),
     path('api-token-auth/', views.obtain_auth_token),
